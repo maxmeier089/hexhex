@@ -1,15 +1,28 @@
 import pygame, pygame.math
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, name, health, speed, pos, idleAnimation, walkAnimation):
+    def __init__(self, name, health, speed, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation):
         super().__init__()
         self.name = name
         self.health = health
         self.speed = speed
         self.pos = pos
-        self.idleAnimation = idleAnimation
+        self.firePressed = False
+        self.firePressedTime = 0
+        self.standAnimation = standAnimation
+        self.standShootAnimation = standShootAnimation
         self.walkAnimation = walkAnimation
-        self.currentAnimation = idleAnimation
+        self.walkShootAnimation = walkShootAnimation
+        self.currentAnimation = standAnimation
+
+    def fireDown(self):
+        pass
+
+    def fireHold(self, elapsedTime):
+        pass
+
+    def fireRelease(self, elapsedTime):
+        pass
         
 
     def update(self, elapsedTime, pressedKeys):
@@ -25,21 +38,41 @@ class Player(pygame.sprite.Sprite):
         if pressedKeys[pygame.K_RIGHT]:
             move.x += 1
 
+        if pressedKeys[pygame.K_RCTRL]: # FIRE pressed
+            if self.firePressed: # was pressed before
+                self.firePressedTime += elapsedTime
+                self.fireHold(self.firePressedTime)
+            else: # was not pressed before, new press
+                self.firePressed = True
+                self.fireDown()
+        else: # FIRE not pressed
+            if self.firePressed: # was pressed before, release
+                self.firePressed = False
+                self.firePressedTime += elapsedTime
+                self.fireRelease(self.firePressedTime)
+            # else: was not pressed before, nothing changes
+
         if move.length() > 0:
-            # walking
+            # walk
             move.scale_to_length(self.speed)
-            self.currentAnimation = self.walkAnimation
+            if self.firePressed:
+                self.currentAnimation = self.walkShootAnimation
+            else:
+                self.currentAnimation = self.walkAnimation
         else:
-            # idle
-            self.currentAnimation = self.idleAnimation
+            # stand
+            if self.firePressed:
+                self.currentAnimation = self.standShootAnimation
+            else:
+                self.currentAnimation = self.standAnimation
 
         self.pos += move
 
         self.currentAnimation.update(elapsedTime)
 
 
-    def draw(self, displaysurface):
-        self.currentAnimation.draw(displaysurface, self.pos)
+    def draw(self, displaySurface):
+        self.currentAnimation.draw(displaySurface, self.pos)
 
 
     def loadFrames(self, spritesheet, frameWidth, frameHeight, numFrames):

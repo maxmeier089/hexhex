@@ -18,7 +18,7 @@ WINDOW_WIDTH = RENDER_WIDTH * SCALE_FACTOR
 WINDOW_HEIGHT = RENDER_HEIGHT * SCALE_FACTOR
 
 # Create the render surface
-displaySurface = pygame.Surface((RENDER_WIDTH, RENDER_HEIGHT))
+displaySurface = pygame.Surface((RENDER_WIDTH, RENDER_HEIGHT), pygame.SRCALPHA)
 
 # Set up the window
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
