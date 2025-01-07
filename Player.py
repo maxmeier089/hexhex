@@ -1,12 +1,12 @@
 import pygame, pygame.math
+from GameObject import *
 
-class Player(pygame.sprite.Sprite):
+class Player(GameObject):
     def __init__(self, name, health, speed, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation):
-        super().__init__()
+        super().__init__(pos)
         self.name = name
         self.health = health
         self.speed = speed
-        self.pos = pos
         self.firePressed = False
         self.firePressedTime = 0
         self.standAnimation = standAnimation
@@ -73,13 +73,3 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self, displaySurface):
         self.currentAnimation.draw(displaySurface, self.pos)
-
-
-    def loadFrames(self, spritesheet, frameWidth, frameHeight, numFrames):
-        frames = []
-        for i in range(numFrames):
-            # Calculate the x, y, width, and height of each frame
-            frameX = i * frameWidth
-            frame = spritesheet.subsurface((frameX, 0, frameWidth, frameHeight))
-            frames.append(frame)
-        return frames

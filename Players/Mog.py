@@ -11,7 +11,9 @@ class Mog(Player):
         walkAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWalk.png").convert_alpha(), 32, 32, 2), 300)
         super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, standShootAnimation) 
         self.particles = pygame.sprite.Group()
+        self.projectiles = pygame.sprite.Group()
         self.spawnPoint = pygame.Vector2(26,3)
+        self.timeUntilNextParticle = 0
 
 
     def update(self, elapsedTime, pressedKeys):
@@ -19,19 +21,19 @@ class Mog(Player):
         for particle in self.particles:
             particle.update(elapsedTime)
 
+        if self.firePressed:
+            self.timeUntilNextParticle -= elapsedTime 
+            if self.timeUntilNextParticle < 0:
+                self.particles.add(PixelParticle(self.pos + self.spawnPoint, pygame.Vector2(random.uniform(-0.2, 0.2), random.uniform(-0.2, 0.2)), 3000, (60,242,255),(255,255,255)))
+                self.timeUntilNextParticle = 234
+
+
     def fireDown(self):
-        for _ in range(12):
-            self.addSmallParticle()
+        for _ in range(5):
+            self.particles.add(PixelParticle(self.pos + self.spawnPoint, pygame.Vector2(random.uniform(-0.3, 0.3), random.uniform(-0.3, -0.1)), 2000, (60,242,255),(255,255,255)))
 
-    def fireHold(self, elapsedTime):
-        if elapsedTime > 253:
-            self.addSmallParticle()
-            self.firePressedTime = 0 # REMOVE HACK
-
-    def addSmallParticle(self):
-        s = 0.2
-        speed = pygame.Vector2(random.uniform(-s, s), random.uniform(-s, s))
-        self.particles.add(PixelParticle(self.pos + self.spawnPoint, speed, 3000, (60,242,255),(255,255,255)))
+    #def fireHold(self, elapsedTime):
+        
 
 
     def draw(self, displaySurface):
