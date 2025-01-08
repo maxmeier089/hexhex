@@ -1,6 +1,7 @@
 import math
 import random
 import pygame, pygame.math
+from ParticleEmitter  import *
 from Particles.PixelParticle import *
 from Player import *
 from Animation import *
@@ -21,15 +22,15 @@ class Mog(Player):
         self.radius = 0  # Initial radius
         self.speed = 0.5  # Angular speed in degrees per second
         self.growth_rate = 0.01  # Radius growth rate per second
-        self.timeUntilNextParticle = 0
+        #self.timeUntilNextParticle = 0
+        self.emitterA = ParticleEmitter(self.pos + pygame.Vector2(26, 3), Vector2(0,0), 0.1, 125, 3000, (60,242,255),(255,255,255))
 
 
     def update(self, elapsedTime, pressedKeys):
         super().update(elapsedTime, pressedKeys)
 
         if self.firePressed:
-            self.timeUntilNextParticle -= elapsedTime
-
+            # spiral spawn position
             self.angle += self.speed * elapsedTime
             self.radius += self.growth_rate * elapsedTime
             maxRadius = 7
@@ -39,9 +40,11 @@ class Mog(Player):
             y = self.radius * math.sin(math.radians(self.angle))
             self.spawnPos = self.pos + pygame.Vector2(26, 3) + pygame.math.Vector2(x, y)
 
-            if self.timeUntilNextParticle < 0:
-                self.particles.add(PixelParticle(self.spawnPos.copy(), pygame.Vector2(random.uniform(-0.2, 0.2), random.uniform(-0.2, 0.2)), 3000, (60,242,255),(255,255,255)))
-                self.timeUntilNextParticle = 125
+            # create particles
+            #self.timeUntilNextParticle -= elapsedTime
+            #if self.timeUntilNextParticle < 0:
+                #self.particles.add(PixelParticle(self.spawnPos.copy(), pygame.Vector2(random.uniform(-0.2, 0.2), random.uniform(-0.2, 0.2)), 3000, (60,242,255),(255,255,255)))
+                #self.timeUntilNextParticle = 125
 
 
         for projectile in self.projectiles:
@@ -50,12 +53,15 @@ class Mog(Player):
         for particle in self.particles:
             particle.update(elapsedTime)
 
+        self.emitterA.update(self.pos + pygame.Vector2(26, 3), elapsedTime)
+
 
     def fireDown(self):
         self.spawnPos = self.pos + Vector2(26,3)
         self.radius = 0  # Initial radius 
         self.projectileOnStick = MogProjectile(self.spawnPos)
         self.projectiles.add(self.projectileOnStick)
+        self.emitterA.on = True
         for _ in range(25):    
             self.particles.add(PixelParticle(self.spawnPos.copy(), pygame.Vector2(random.uniform(-0.3, 0.3), random.uniform(-0.3, -0.1)), 3000, (60,242,255),(255,255,255)))
 
@@ -78,6 +84,7 @@ class Mog(Player):
         self.projectileOnStick.vel = direction
         self.projectileOnStick = None
         self.radius = 0
+        self.emitterA.on = False
       
 
     def draw(self, displaySurface):
@@ -88,3 +95,5 @@ class Mog(Player):
 
         for particle in self.particles:
             particle.draw(displaySurface)
+
+        self.emitterA.draw(displaySurface)
