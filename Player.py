@@ -3,7 +3,7 @@ from GameObject import *
 
 class Player(GameObject):
     def __init__(self, name, health, speed, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation):
-        super().__init__(pos)
+        super().__init__(pos, pygame.Vector2(32,32))
         self.name = name
         self.health = health
         self.speed = speed

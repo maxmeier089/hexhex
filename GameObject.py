@@ -1,9 +1,10 @@
 import pygame
 
 class GameObject(pygame.sprite.Sprite):
-    def __init__(self, pos):
+    def __init__(self, pos, size):
         super().__init__()
         self.pos = pos
+        self.size = size
 
     def loadFrames(self, spritesheet, frameWidth, frameHeight, numFrames):
         frames = []
