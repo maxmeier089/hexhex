@@ -14,6 +14,7 @@ class Player(GameObject):
         self.walkAnimation = walkAnimation
         self.walkShootAnimation = walkShootAnimation
         self.currentAnimation = standAnimation
+        self.setKeys(pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_RCTRL)
 
     def fireDown(self):
         pass
@@ -23,22 +24,30 @@ class Player(GameObject):
 
     def fireRelease(self, elapsedTime):
         pass
+
+
+    def setKeys(self, up, down, left, right, fire):
+        self.upKey = up
+        self.downKey = down
+        self.leftKey = left
+        self.rightKey = right
+        self.fireKey = fire
         
 
     def update(self, elapsedTime, pressedKeys):
 
         move = pygame.Vector2(0,0)
 
-        if pressedKeys[pygame.K_UP]:
+        if pressedKeys[self.upKey]:
             move.y -= 1
-        if pressedKeys[pygame.K_DOWN]:
+        if pressedKeys[self.downKey]:
             move.y += 1
-        if pressedKeys[pygame.K_LEFT]:
+        if pressedKeys[self.leftKey]:
             move.x -= 1
-        if pressedKeys[pygame.K_RIGHT]:
+        if pressedKeys[self.rightKey]:
             move.x += 1
 
-        if pressedKeys[pygame.K_RCTRL]: # FIRE pressed
+        if pressedKeys[self.fireKey]: # FIRE pressed
             if self.firePressed: # was pressed before
                 self.firePressedTime += elapsedTime
                 self.fireHold(self.firePressedTime)
