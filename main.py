@@ -11,7 +11,7 @@ pygame.init()
 # Original render resolution
 RENDER_WIDTH = 256
 RENDER_HEIGHT = 240
-SCALE_FACTOR = 8  # Scale factor for the window
+SCALE_FACTOR = 4  # Scale factor for the window
 
 # Scaled window resolution
 WINDOW_WIDTH = RENDER_WIDTH * SCALE_FACTOR

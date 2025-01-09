@@ -1,7 +1,7 @@
 import math
 import random
 import pygame, pygame.math
-from ParticleEmitter  import *
+from Particles.ParticleEmitter  import *
 from Particles.PixelParticle import *
 from Player import *
 from Animation import *
@@ -9,6 +9,9 @@ from Players import *
 from Players.MogProjectile import *
 
 class Mog(Player):
+
+    LIFTED_STICK_POS = pygame.Vector2(26, 3)
+
     def __init__(self, pos):
         standAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogStand.png").convert_alpha(), 32, 32, 1), 300)
         standShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogStandShoot.png").convert_alpha(), 32, 32, 1), 300)
@@ -17,13 +20,18 @@ class Mog(Player):
         self.particles = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
         self.projectileOnStick = None
-        self.spawnPos = self.pos + pygame.Vector2(26, 3)
+        self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
         self.angle = 0  # Start angle in degrees
         self.radius = 0  # Initial radius
-        self.speed = 0.5  # Angular speed in degrees per second
+        self.spiralSpeed = 0.2  # Angular speed in degrees per second
         self.growth_rate = 0.01  # Radius growth rate per second
-        #self.timeUntilNextParticle = 0
-        self.emitterA = ParticleEmitter(self.pos + pygame.Vector2(26, 3), Vector2(0,0), 0.1, 125, 3000, (60,242,255),(255,255,255))
+        self.emitterCont = ParticleEmitter(pos = self.spawnPos, vel = Vector2(0,0), delay = 125, ttl = 3000, color=(60,242,255))
+        self.emitterCont.velVar = 0.1
+        self.emitterCont.endColor = (255,255,255)
+        self.emitterGrow = ParticleEmitter(pos = self.spawnPos, vel = Vector2(0,-0.2), delay = 125, ttl = 500, color=(255,255,255))
+        self.emitterGrow.velVar = 0.5
+        self.emitterGrow.endColor = (60,242,255)
+        
 
 
     def update(self, elapsedTime, pressedKeys):
@@ -31,21 +39,14 @@ class Mog(Player):
 
         if self.firePressed:
             # spiral spawn position
-            self.angle += self.speed * elapsedTime
+            self.angle += self.spiralSpeed * elapsedTime
             self.radius += self.growth_rate * elapsedTime
             maxRadius = 7
             if self.radius > maxRadius: self.radius = maxRadius 
             # Convert polar coordinates to Cartesian
             x = self.radius * math.cos(math.radians(self.angle))
             y = self.radius * math.sin(math.radians(self.angle))
-            self.spawnPos = self.pos + pygame.Vector2(26, 3) + pygame.math.Vector2(x, y)
-
-            # create particles
-            #self.timeUntilNextParticle -= elapsedTime
-            #if self.timeUntilNextParticle < 0:
-                #self.particles.add(PixelParticle(self.spawnPos.copy(), pygame.Vector2(random.uniform(-0.2, 0.2), random.uniform(-0.2, 0.2)), 3000, (60,242,255),(255,255,255)))
-                #self.timeUntilNextParticle = 125
-
+            self.spawnPos = self.pos + Mog.LIFTED_STICK_POS + pygame.math.Vector2(x, y)
 
         for projectile in self.projectiles:
             projectile.update(elapsedTime)
@@ -53,7 +54,8 @@ class Mog(Player):
         for particle in self.particles:
             particle.update(elapsedTime)
 
-        self.emitterA.update(self.pos + pygame.Vector2(26, 3), elapsedTime)
+        self.emitterCont.update(self.pos + Mog.LIFTED_STICK_POS, elapsedTime)
+        self.emitterGrow.update(self.spawnPos, elapsedTime)
 
 
     def fireDown(self):
@@ -61,30 +63,40 @@ class Mog(Player):
         self.radius = 0  # Initial radius 
         self.projectileOnStick = MogProjectile(self.spawnPos)
         self.projectiles.add(self.projectileOnStick)
-        self.emitterA.on = True
-        for _ in range(25):    
+        self.emitterCont.on = True
+        for _ in range(7):    
             self.particles.add(PixelParticle(self.spawnPos.copy(), pygame.Vector2(random.uniform(-0.3, 0.3), random.uniform(-0.3, -0.1)), 3000, (60,242,255),(255,255,255)))
 
     def fireHold(self, elapsedTime):
         if self.projectileOnStick is not None:
             self.projectileOnStick.pos = self.spawnPos
-            if elapsedTime > 4000:
+            if elapsedTime > 1500:
+                if self.projectileOnStick.power < 3: self.emitterGrow.emitMultiple(25)
                 self.projectileOnStick.power = 3
-            elif elapsedTime > 3000:
-                self.projectileOnStick.power = 3
-            elif elapsedTime > 2000:
-                self.projectileOnStick.power = 2
             elif elapsedTime > 1000:
+                if self.projectileOnStick.power < 2: self.emitterGrow.emitMultiple(18)
+                self.projectileOnStick.power = 2
+            elif elapsedTime > 500:
+                if self.projectileOnStick.power < 1: self.emitterGrow.emitMultiple(12)
                 self.projectileOnStick.power = 1
+            elif elapsedTime > 300:
+                self.projectileOnStick.power = 0
+            elif elapsedTime > 200:
+                self.projectileOnStick.power = -1
 
     def fireRelease(self, elapsedTime):
-        angleRad = math.radians(self.angle)  # Convert angle to radians
-        direction = pygame.math.Vector2(math.cos(angleRad), math.sin(angleRad))
-        direction.scale_to_length(0.02)
-        self.projectileOnStick.vel = direction
-        self.projectileOnStick = None
+        if self.projectileOnStick is not None:
+            if self.projectileOnStick.power <= 0:
+                self.projectileOnStick.kill()
+            else:
+                angleRad = math.radians(self.angle)  # Convert angle to radians
+                direction = pygame.math.Vector2(math.cos(angleRad), math.sin(angleRad))
+                direction.scale_to_length(0.02)
+                direction = direction.rotate(90)
+                self.projectileOnStick.vel = direction
+                self.projectileOnStick = None
         self.radius = 0
-        self.emitterA.on = False
+        self.emitterCont.on = False
       
 
     def draw(self, displaySurface):
@@ -96,4 +108,5 @@ class Mog(Player):
         for particle in self.particles:
             particle.draw(displaySurface)
 
-        self.emitterA.draw(displaySurface)
+        self.emitterCont.draw(displaySurface)
+        self.emitterGrow.draw(displaySurface)

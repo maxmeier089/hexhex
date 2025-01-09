@@ -2,7 +2,7 @@ import pygame
 from Player import *
 from Animation import *
 from Players.Mog import *
-from ParticleEmitter import *
+from Particles.ParticleEmitter import *
 
 class Game:
     def __init__(self):

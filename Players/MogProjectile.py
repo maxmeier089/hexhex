@@ -9,7 +9,7 @@ class MogProjectile(Projectile):
     def __init__(self, pos):
         super().__init__(pos)
         self.vel = Vector2(0,0)
-        self.power = 0
+        self.power = -1
         frames = self.loadFrames(pygame.image.load("Players\Mog\MogProjectile.png").convert_alpha(), 8, 8, 7)
         self.animation = Animation(frames, 200)
         self.animation.startIndex = 0
@@ -22,11 +22,17 @@ class MogProjectile(Projectile):
     def update(self, elapsedTime):
         self.pos += self.vel * elapsedTime
 
-        self.animation.startIndex = self.power
-        self.animation.endIndex = self.power + 2
+        if self.power == -1:
+            self.animation.startIndex = 0
+            self.animation.endIndex = 0
+        elif self.power == 0:
+            self.animation.startIndex = 0
+            self.animation.endIndex = 1
+        else:
+            self.animation.startIndex = self.power
+            self.animation.endIndex = self.power + 2
 
         self.animation.update(elapsedTime)
-
 
         self.timeUntilNextParticle -= elapsedTime
 
