@@ -1,7 +1,7 @@
-from Particles.PixelParticle import *
+import pygame
+import random
 
-
-class ParticleEmitter:
+class Emitter:
     def __init__(self, pos, vel, delay, ttl, color):
         self.pos = pos
         self.vel = vel
@@ -25,7 +25,7 @@ class ParticleEmitter:
             self.emit()
 
     def createParticle(self, pos, vel, ttl, startColor, endColor):
-        self.particles.add(PixelParticle(pos, vel, ttl, startColor, endColor))
+        pass
 
 
     def update(self, pos, elapsedTime):

@@ -1,39 +1,36 @@
 import pygame
 from pygame.math import *
+from Config import *
 from Game import *
 from Player import *
 from Animation import *
 from Players.Mog import *
 
+
 # Initialize Pygame
 pygame.init()
 
-# Original render resolution
-RENDER_WIDTH = 256
-RENDER_HEIGHT = 240
-SCALE_FACTOR = 4  # Scale factor for the window
-
 # Scaled window resolution
-WINDOW_WIDTH = RENDER_WIDTH * SCALE_FACTOR
-WINDOW_HEIGHT = RENDER_HEIGHT * SCALE_FACTOR
+WINDOW_WIDTH = SCREEN_WIDTH * SCALE_FACTOR
+WINDOW_HEIGHT = SCREEN_HEIGHT * SCALE_FACTOR
 
 # Create the render surface
-displaySurface = pygame.Surface((RENDER_WIDTH, RENDER_HEIGHT), pygame.SRCALPHA)
+displaySurface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
 
 # Set up the window
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("<>")
-
-
-# Create Game
-game = Game()
-#p1 = Mog(Vector2(20, 20))
 
 # Animation variables
 clock = pygame.time.Clock()
 lastUpdateTime = pygame.time.get_ticks()
 running = True
 
+
+# Create Game
+game = Game()
+
+# Run!
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -63,7 +60,7 @@ while running:
     pygame.display.flip()
 
 
-    clock.tick(60)
+    clock.tick(FPS)
 
 
 pygame.quit()

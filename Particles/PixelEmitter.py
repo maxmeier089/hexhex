@@ -1,19 +1,9 @@
-from Particles.PixelParticle import *
+from Particles.PixelParticle import PixelParticle
+from Particles.Emitter import Emitter
 
-
-class PixelEmitter:
-    def __init__(self, pos, vel, velVar, delay, ttl, startColor, endColor):
-        #super().__init__(pos, vel, velVar, delay, ttl, startColor, endColor)
-        self.pos = pos
-        self.vel = vel
-        self.velVar = velVar
-        self.delay = delay
-        self.timeUntilNextParticle = 0
-        self.ttl = ttl
-        self.startColor = startColor
-        self.endColor = endColor
-        self.particles = pygame.sprite.Group()
-        self.on = False
+class PixelEmitter(Emitter):
+    def __init__(self, pos, vel, delay, ttl, color):
+        super().__init__(pos, vel, delay, ttl, color)
 
     def createParticle(self, pos, vel, ttl, startColor, endColor):
         self.particles.add(PixelParticle(pos, vel, ttl, startColor, endColor))

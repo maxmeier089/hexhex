@@ -1,7 +1,7 @@
 import math
 import random
 import pygame, pygame.math
-from Particles.ParticleEmitter  import *
+from Particles.PixelEmitter  import *
 from Particles.PixelParticle import *
 from Player import *
 from Animation import *
@@ -25,14 +25,13 @@ class Mog(Player):
         self.radius = 0  # Initial radius
         self.spiralSpeed = 0.2  # Angular speed in degrees per second
         self.growth_rate = 0.01  # Radius growth rate per second
-        self.emitterCont = ParticleEmitter(pos = self.spawnPos, vel = Vector2(0,0), delay = 125, ttl = 3000, color=(60,242,255))
+        self.emitterCont = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,0), delay = 125, ttl = 3000, color=(60,242,255))
         self.emitterCont.velVar = 0.1
         self.emitterCont.endColor = (255,255,255)
-        self.emitterGrow = ParticleEmitter(pos = self.spawnPos, vel = Vector2(0,-0.2), delay = 125, ttl = 500, color=(255,255,255))
+        self.emitterGrow = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,-0.2), delay = 125, ttl = 500, color=(255,255,255))
         self.emitterGrow.velVar = 0.5
         self.emitterGrow.endColor = (60,242,255)
         
-
 
     def update(self, elapsedTime, pressedKeys):
         super().update(elapsedTime, pressedKeys)
