@@ -1,4 +1,4 @@
-from Particle import *
+from Particles.Particle import *
 
 class PixelParticle(Particle):
     def __init__(self, pos, speed, timeToLive, startColor, endColor):
