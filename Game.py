@@ -27,8 +27,8 @@ class Game:
 
     def draw(self, displaySurface):
         # background
-        #displaySurface.fill((52,125,25))
-        displaySurface.fill((30,121,127))
+        displaySurface.fill((52,125,25))
+        #displaySurface.fill((30,121,127))
 
         # player
         for p in self.players:
