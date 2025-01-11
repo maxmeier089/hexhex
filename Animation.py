@@ -1,4 +1,5 @@
 class Animation:
+    
     def __init__(self, frames, timePerFrame):
         self.frames = frames
         self.timePerFrame = timePerFrame

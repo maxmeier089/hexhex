@@ -2,6 +2,7 @@ import pygame
 import random
 
 class Emitter:
+
     def __init__(self, pos, vel, delay, ttl, color):
         self.pos = pos
         self.vel = vel
@@ -23,6 +24,7 @@ class Emitter:
     def emitMultiple(self, n):
         for _ in range(n):
             self.emit()
+            
 
     def createParticle(self, pos, vel, ttl, startColor, endColor):
         pass

@@ -2,6 +2,7 @@ import pygame
 import random
 
 class Particle(pygame.sprite.Sprite):
+    
     def __init__(self, pos, speed, timeToLive):
         super().__init__()
         self.pos = pos

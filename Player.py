@@ -2,8 +2,11 @@ import pygame, pygame.math
 from GameObject import *
 
 class Player(GameObject):
+
+    SIZE = 32
+
     def __init__(self, name, health, speed, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation):
-        super().__init__(pos, pygame.Vector2(32, 32))
+        super().__init__(pos, pygame.Vector2(Player.SIZE, Player.SIZE))
         self.name = name
         self.health = health
         self.speed = speed

@@ -6,11 +6,12 @@ from Players.Mog import *
 from Particles.Emitter import *
 
 class Game:
+
     def __init__(self):
         pygame.init()
         self.players = pygame.sprite.Group()
 
-        player1 = Mog(pygame.Vector2(SCREEN_WIDTH-20-32, SCREEN_HEIGHT-20-32))
+        player1 = Mog(pygame.Vector2(SCREEN_WIDTH-52, SCREEN_HEIGHT-52))
         self.players.add(player1)
 
         player2 = Mog(pygame.Vector2(20, 20))
@@ -27,7 +28,8 @@ class Game:
 
     def draw(self, displaySurface):
         # background
-        displaySurface.fill((125,12,25))
+        displaySurface.fill((125,12,225))
+        #displaySurface.fill((125,12,25))
         #displaySurface.fill((52,125,25))
         #displaySurface.fill((30,121,127))
 

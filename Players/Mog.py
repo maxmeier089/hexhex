@@ -58,7 +58,7 @@ class Mog(Player):
 
 
     def fireDown(self):
-        self.spawnPos = self.pos + Vector2(26,3)
+        self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
         self.radius = 0  # Initial radius 
         self.projectileOnStick = MogProjectile(self.spawnPos)
         self.projectiles.add(self.projectileOnStick)
