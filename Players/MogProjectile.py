@@ -6,6 +6,9 @@ from Projectile import *
 
 
 class MogProjectile(Projectile):
+
+    TTL = 5555
+
     def __init__(self, pos):
         super().__init__(pos)
         self.vel = Vector2(0,0)
@@ -19,10 +22,23 @@ class MogProjectile(Projectile):
         self.emitter.velVar = 0.1 
         self.emitter.endColor = (255,255,255)
         self.emitter.on = True
+        self.released = False
+
+
+    def release(self, vel):
+        self.vel = vel
+        self.released = True
+        self.ttl = MogProjectile.TTL
         
 
     def update(self, elapsedTime):
+
         self.pos += self.vel * elapsedTime
+
+        if self.released:
+            self.ttl -= elapsedTime
+            if self.ttl <= 0:
+                self.kill()
 
         if self.power == -1:
             self.animation.startIndex = 0

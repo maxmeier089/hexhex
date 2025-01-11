@@ -1,6 +1,7 @@
 from Particles.Particle import *
 
 class PixelParticle(Particle):
+    
     def __init__(self, pos, speed, timeToLive, startColor, endColor):
         super().__init__(pos, speed, timeToLive)
         self.startColor = startColor

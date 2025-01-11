@@ -24,7 +24,7 @@ class Mog(Player):
         self.angle = 0  # Start angle in degrees
         self.radius = 0  # Initial radius
         self.spiralSpeed = 0.2  # Angular speed in degrees per second
-        self.growth_rate = 0.01  # Radius growth rate per second
+        self.growthRate = 0.01  # Radius growth rate per second
         self.emitterCont = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,0), delay = 125, ttl = 3000, color=(60,242,255))
         self.emitterCont.velVar = 0.1
         self.emitterCont.endColor = (255,255,255)
@@ -39,7 +39,7 @@ class Mog(Player):
         if self.firePressed:
             # spiral spawn position
             self.angle += self.spiralSpeed * elapsedTime
-            self.radius += self.growth_rate * elapsedTime
+            self.radius += self.growthRate * elapsedTime
             maxRadius = 7
             if self.radius > maxRadius: self.radius = maxRadius 
             # Convert polar coordinates to Cartesian
@@ -90,9 +90,9 @@ class Mog(Player):
             else:
                 angleRad = math.radians(self.angle)  # Convert angle to radians
                 direction = pygame.math.Vector2(math.cos(angleRad), math.sin(angleRad))
-                direction.scale_to_length(0.02)
+                direction.scale_to_length(0.035)
                 direction = direction.rotate(90)
-                self.projectileOnStick.vel = direction
+                self.projectileOnStick.release(direction)
                 self.projectileOnStick = None
         self.radius = 0
         self.emitterCont.on = False
