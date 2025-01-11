@@ -17,7 +17,6 @@ class Mog(Player):
         standShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogStandShoot.png").convert_alpha(), 32, 32, 1), 300)
         walkAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWalk.png").convert_alpha(), 32, 32, 2), 300)
         super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, standShootAnimation) 
-        self.particles = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
         self.projectileOnStick = None
         self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
@@ -50,9 +49,6 @@ class Mog(Player):
         for projectile in self.projectiles:
             projectile.update(elapsedTime)
 
-        for particle in self.particles:
-            particle.update(elapsedTime)
-
         self.emitterCont.update(self.pos + Mog.LIFTED_STICK_POS, elapsedTime)
         self.emitterGrow.update(self.spawnPos, elapsedTime)
 
@@ -63,8 +59,6 @@ class Mog(Player):
         self.projectileOnStick = MogProjectile(self.spawnPos)
         self.projectiles.add(self.projectileOnStick)
         self.emitterCont.on = True
-        for _ in range(7):    
-            self.particles.add(PixelParticle(self.spawnPos.copy(), pygame.Vector2(random.uniform(-0.3, 0.3), random.uniform(-0.3, -0.1)), 3000, (60,242,255),(255,255,255)))
 
     def fireHold(self, elapsedTime):
         if self.projectileOnStick is not None:
@@ -103,9 +97,6 @@ class Mog(Player):
 
         for projectile in self.projectiles:
             projectile.draw(displaySurface)
-
-        for particle in self.particles:
-            particle.draw(displaySurface)
 
         self.emitterCont.draw(displaySurface)
         self.emitterGrow.draw(displaySurface)
