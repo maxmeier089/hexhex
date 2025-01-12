@@ -38,7 +38,6 @@ class Player(GameObject):
         
 
     def update(self, elapsedTime, pressedKeys):
-
         move = pygame.Vector2(0,0)
 
         if pressedKeys[self.upKey]:
@@ -83,6 +82,9 @@ class Player(GameObject):
 
         self.currentAnimation.update(elapsedTime)
 
+        super().update(elapsedTime)
+
 
     def draw(self, displaySurface):
         self.currentAnimation.draw(displaySurface, self.pos)
+        super().draw(displaySurface)

@@ -1,10 +1,12 @@
 import math
-import pygame
 import random
+import pygame
+from GameObject import GameObject
 
-class Emitter:
+class Emitter(GameObject):
 
     def __init__(self, pos, vel, delay, ttl, color):
+        super().__init__(pos, pygame.Vector2(0,0))
         self.pos = pos
         self.vel = vel
         self.velVar = 0
@@ -22,7 +24,6 @@ class Emitter:
 
 
     def emit(self):
-
         if self.randomizeAngle:
             self.angle = random.uniform(0, 360)
 
@@ -42,9 +43,7 @@ class Emitter:
         pass
 
 
-    def update(self, pos, elapsedTime):
-        self.pos = pos.copy()
-
+    def update(self, elapsedTime):
         self.angle += self.angleSpeed * elapsedTime
         if self.angle >= 360:
             self.angle -= 360
@@ -58,7 +57,6 @@ class Emitter:
             if self.timeUntilNextParticle < 0:
                 self.emit()
                 self.timeUntilNextParticle = self.delay
-
 
 
     def draw(self, displaySurface):

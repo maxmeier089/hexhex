@@ -27,22 +27,18 @@ class Mog(Player):
         self.spiralSpeed = 0.2  # Angular speed in degrees per second
         self.growthRate = 0.01  # Radius growth rate per second
         
-        self.emitters = []
-        
         self.emitterCont = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,0), delay = 125, ttl = 3000, color=(60,242,255))
         self.emitterCont.velVar = 0.1
         self.emitterCont.endColor = (255,255,255)
-        self.emitters.append(self.emitterCont)
+        self.children.add(self.emitterCont)
 
         self.emitterGrow = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,-0.2), delay = 125, ttl = 500, color=(255,255,255))
         self.emitterGrow.velVar = 0.5
         self.emitterGrow.endColor = (60,242,255)
-        self.emitters.append(self.emitterGrow)
+        self.children.add(self.emitterGrow)
         
 
     def update(self, elapsedTime, pressedKeys):
-        super().update(elapsedTime, pressedKeys)
-
         if self.firePressed:
             # spiral spawn position
             self.angle += self.spiralSpeed * elapsedTime
@@ -57,8 +53,10 @@ class Mog(Player):
         for projectile in self.projectiles:
             projectile.update(elapsedTime)
 
-        for emitter in self.emitters:
-            emitter.update(self.spawnPos, elapsedTime)
+        self.emitterCont.pos = self.spawnPos.copy()
+        self.emitterGrow.pos = self.spawnPos.copy()
+
+        super().update(elapsedTime, pressedKeys)
 
 
     def fireDown(self):
@@ -99,13 +97,10 @@ class Mog(Player):
                 self.projectileOnStick = None
         self.radius = 0
         self.emitterCont.on = False
-      
+
 
     def draw(self, displaySurface):
         super().draw(displaySurface)
 
         for projectile in self.projectiles:
-            projectile.draw(displaySurface)
-
-        for emitter in self.emitters:
-            emitter.draw(displaySurface)
+            projectile.draw(displaySurface)   

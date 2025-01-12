@@ -25,17 +25,15 @@ class MogProjectile(Projectile):
         self.explosionAnimation = Animation(explosionFrames, 100)
         self.explosionAnimation.oneShot = True
         
-        self.emitters = []
-        
         self.emitter = PixelEmitter(pos = self.pos.copy(), vel = Vector2(0,0), delay = 500, ttl = 3000, color=(60,242,255))
         self.emitter.velVar = 0.1 
         self.emitter.endColor = (255,255,255)
         self.emitter.on = True
-        self.emitters.append(self.emitter)
+        self.children.add(self.emitter)
         
         self.emitterCountdown = PixelEmitter(pos = self.pos.copy(), vel = Vector2(0,0), delay = 750, ttl = 3000, color=(255,237,36))
         self.emitterCountdown.endColor = (255,255,255)
-        self.emitters.append(self.emitterCountdown)
+        self.children.add(self.emitterCountdown)
         
         self.released = False
         self.exploded = False
@@ -61,7 +59,7 @@ class MogProjectile(Projectile):
         self.emitterExplode.velVar = 0.2 
         self.emitterExplode.endColor = (60,242,255)
         self.emitterExplode.randomizeAngle = True
-        self.emitters.append(self.emitterExplode)
+        self.children.add(self.emitterExplode)
         self.emitterExplode.emitMultiple(55 * self.power)
         
         # if self.power == 3 -> startIndex remains 0
@@ -72,9 +70,11 @@ class MogProjectile(Projectile):
       
 
     def update(self, elapsedTime):
-
         if not self.exploded:
             self.pos += self.vel * elapsedTime
+
+        self.emitter.pos = self.pos.copy()
+        self.emitterCountdown.pos = self.pos.copy()
 
         if self.released:
             self.ttl -= elapsedTime
@@ -98,13 +98,12 @@ class MogProjectile(Projectile):
 
         self.animation.update(elapsedTime)
 
-        for emitter in self.emitters:
-            emitter.update(self.pos, elapsedTime)
-
         if self.exploded:
             self.explosionAnimation.update(elapsedTime)
             if not self.explosionAnimation.isRunning and len(self.emitter.particles) == 0 and len(self.emitter.particles) == 0:
                 self.kill()
+
+        super().update(elapsedTime)
 
 
     def draw(self, displaySurface):
@@ -114,6 +113,5 @@ class MogProjectile(Projectile):
         else:
             self.explosionAnimation.draw(displaySurface, self.pos - Vector2(16,16))
 
-        for emitter in self.emitters:
-            emitter.draw(displaySurface)
+        super().draw(displaySurface)
 
