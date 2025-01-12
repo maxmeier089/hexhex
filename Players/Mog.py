@@ -1,5 +1,4 @@
 import math
-import random
 import pygame, pygame.math
 from Particles.PixelEmitter  import *
 from Particles.PixelParticle import *
@@ -13,23 +12,32 @@ class Mog(Player):
     LIFTED_STICK_POS = pygame.Vector2(26, 3)
 
     def __init__(self, pos):
+
         standAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogStand.png").convert_alpha(), 32, 32, 1), 300)
         standShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogStandShoot.png").convert_alpha(), 32, 32, 1), 300)
         walkAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWalk.png").convert_alpha(), 32, 32, 2), 300)
         super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, standShootAnimation) 
+        
         self.projectiles = pygame.sprite.Group()
+        
         self.projectileOnStick = None
         self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
         self.angle = 0  # Start angle in degrees
         self.radius = 0  # Initial radius
         self.spiralSpeed = 0.2  # Angular speed in degrees per second
         self.growthRate = 0.01  # Radius growth rate per second
+        
+        self.emitters = []
+        
         self.emitterCont = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,0), delay = 125, ttl = 3000, color=(60,242,255))
         self.emitterCont.velVar = 0.1
         self.emitterCont.endColor = (255,255,255)
+        self.emitters.append(self.emitterCont)
+
         self.emitterGrow = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,-0.2), delay = 125, ttl = 500, color=(255,255,255))
         self.emitterGrow.velVar = 0.5
         self.emitterGrow.endColor = (60,242,255)
+        self.emitters.append(self.emitterGrow)
         
 
     def update(self, elapsedTime, pressedKeys):
@@ -49,8 +57,8 @@ class Mog(Player):
         for projectile in self.projectiles:
             projectile.update(elapsedTime)
 
-        self.emitterCont.update(self.pos + Mog.LIFTED_STICK_POS, elapsedTime)
-        self.emitterGrow.update(self.spawnPos, elapsedTime)
+        for emitter in self.emitters:
+            emitter.update(self.spawnPos, elapsedTime)
 
 
     def fireDown(self):
@@ -99,5 +107,5 @@ class Mog(Player):
         for projectile in self.projectiles:
             projectile.draw(displaySurface)
 
-        self.emitterCont.draw(displaySurface)
-        self.emitterGrow.draw(displaySurface)
+        for emitter in self.emitters:
+            emitter.draw(displaySurface)
