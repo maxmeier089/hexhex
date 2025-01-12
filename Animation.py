@@ -3,15 +3,26 @@ class Animation:
     def __init__(self, frames, timePerFrame):
         self.frames = frames
         self.timePerFrame = timePerFrame
-        self.frameIndex = 0
         self.timeSinceLastFrame = 0
         self.startIndex = 0
+        self.frameIndex = 0
         self.endIndex = len(self.frames) - 1
         self.pendulum = False
         self.up = True
+        self.oneShot = False
+        self.isRunning = True
+
+
+    def setStartIndex(self, startIndex):
+        self.startIndex = startIndex
+        self.frameIndex = startIndex
 
 
     def update(self, elapsedTime):
+
+        if not self.isRunning:
+            return
+
         self.timeSinceLastFrame += elapsedTime
 
         if self.timeSinceLastFrame > self.timePerFrame:
@@ -20,7 +31,9 @@ class Animation:
                 if self.frameIndex < self.endIndex:
                     self.frameIndex += 1
                 else:
-                    if self.pendulum:
+                    if self.oneShot:
+                        self.isRunning = False
+                    elif self.pendulum:
                         self.up = False
                         self.frameIndex -= 1
                         if self.frameIndex < self.startIndex:
@@ -31,7 +44,9 @@ class Animation:
                 if self.frameIndex > self.startIndex:
                     self.frameIndex -= 1
                 else:
-                    if self.pendulum:
+                    if self.oneShot:
+                        self.isRunning = False
+                    elif self.pendulum:
                         self.up = True
                         self.frameIndex += 1
                         if self.frameIndex > self.endIndex:
@@ -43,4 +58,5 @@ class Animation:
             
 
     def draw(self, displaysurface, pos):
-        displaysurface.blit(self.frames[self.frameIndex], pos)
+        if self.isRunning:
+            displaysurface.blit(self.frames[self.frameIndex], pos)

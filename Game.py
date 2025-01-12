@@ -20,10 +20,16 @@ class Game:
 
         self.font = pygame.font.SysFont(None, 82)
 
+        #self.emitter = PixelEmitter(Vector2(100,100), Vector2(0.5,0.5), 200, 1000, (245,45,23))
+        #self.emitter.angleSpeed = 0
+        #self.emitter.randomizeAngle = True
+        #self.emitter.on = True
+
 
     def update(self, elapsedTime, pressedKeys):
         for p in self.players:
             p.update(elapsedTime, pressedKeys)
+        #self.emitter.update(Vector2(100,100), elapsedTime)
 
 
     def draw(self, displaySurface):
@@ -37,3 +43,5 @@ class Game:
         # player
         for p in self.players:
             p.draw(displaySurface)
+
+        #self.emitter.draw(displaySurface)
