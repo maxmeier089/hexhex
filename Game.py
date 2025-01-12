@@ -28,9 +28,10 @@ class Game:
 
     def draw(self, displaySurface):
         # background
-        displaySurface.fill((125,12,225))
+        #displaySurface.fill((34,98,12))
+        #displaySurface.fill((125,12,225))
         #displaySurface.fill((125,12,25))
-        #displaySurface.fill((52,125,25))
+        displaySurface.fill((52,125,25))
         #displaySurface.fill((30,121,127))
 
         # player

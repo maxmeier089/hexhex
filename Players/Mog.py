@@ -64,8 +64,9 @@ class Mog(Player):
         if self.projectileOnStick is not None:
             self.projectileOnStick.pos = self.spawnPos
             if elapsedTime > 1500:
-                if self.projectileOnStick.power < 3: self.emitterGrow.emitMultiple(25)
-                self.projectileOnStick.power = 3
+                if self.projectileOnStick.power < 3:
+                    self.emitterGrow.emitMultiple(25)
+                    self.projectileOnStick.power = 3
             elif elapsedTime > 1000:
                 if self.projectileOnStick.power < 2: self.emitterGrow.emitMultiple(18)
                 self.projectileOnStick.power = 2
