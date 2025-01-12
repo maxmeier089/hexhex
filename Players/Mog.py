@@ -63,19 +63,19 @@ class Mog(Player):
     def fireHold(self, elapsedTime):
         if self.projectileOnStick is not None:
             self.projectileOnStick.pos = self.spawnPos
-            if elapsedTime > 1500:
+            if elapsedTime > 2250:
                 if self.projectileOnStick.power < 3:
                     self.emitterGrow.emitMultiple(25)
                     self.projectileOnStick.power = 3
-            elif elapsedTime > 1000:
+            elif elapsedTime > 1500:
                 if self.projectileOnStick.power < 2: self.emitterGrow.emitMultiple(18)
                 self.projectileOnStick.power = 2
-            elif elapsedTime > 500:
+            elif elapsedTime > 750:
                 if self.projectileOnStick.power < 1: self.emitterGrow.emitMultiple(12)
                 self.projectileOnStick.power = 1
-            elif elapsedTime > 300:
+            elif elapsedTime > 500:
                 self.projectileOnStick.power = 0
-            elif elapsedTime > 200:
+            elif elapsedTime > 250:
                 self.projectileOnStick.power = -1
 
     def fireRelease(self, elapsedTime):

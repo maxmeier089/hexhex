@@ -21,15 +21,21 @@ class MogProjectile(Projectile):
         self.animation.startIndex = 0
         self.animation.endIndex = 2
         self.animation.pendulum = True
+        self.emitters = []
         self.emitter = PixelEmitter(pos = self.pos.copy(), vel = Vector2(0,0), delay = 500, ttl = 3000, color=(60,242,255))
         self.emitter.velVar = 0.1 
         self.emitter.endColor = (255,255,255)
         self.emitter.on = True
+        self.emitters.append(self.emitter)
+        self.emitterCountdown = PixelEmitter(pos = self.pos.copy(), vel = Vector2(0,0), delay = 1000, ttl = 3000, color=(255,237,36))
+        self.emitterCountdown.endColor = (255,255,255)
+        self.emitters.append(self.emitterCountdown)
         self.emitterExplode = PixelEmitter(pos = self.pos.copy(), vel = Vector2(0, 0), delay = 1000, ttl = 777, color=(255, 237, 36))
         self.emitterExplode.velVar = 0.2 
         self.emitterExplode.endColor = (60,242,255)
         self.emitterExplode.randomizeAngle = True
         self.emitterExplode.on = False
+        self.emitters.append(self.emitterExplode)
         self.released = False
         self.exploded = False
 
@@ -44,6 +50,7 @@ class MogProjectile(Projectile):
         self.emitterExplode.vel = Vector2(0.1, 0.1) * self.power
         self.emitterExplode.emitMultiple(55 * self.power)
         self.emitter.on = False
+        self.emitterCountdown.on = False
 
         # if self.power == 3 -> startIndex remains 0
         if self.power == 2:
@@ -60,8 +67,10 @@ class MogProjectile(Projectile):
 
         if self.released:
             self.ttl -= elapsedTime
-            if self.ttl <= 0 and not self.exploded:
-                self.explode() 
+            if self.ttl <= 3000:
+                self.emitterCountdown.on = True
+                if self.ttl <= 0 and not self.exploded:
+                    self.explode() 
 
         if self.power == -1:
             self.animation.startIndex = 0
@@ -78,8 +87,8 @@ class MogProjectile(Projectile):
 
         self.animation.update(elapsedTime)
 
-        self.emitter.update(self.pos, elapsedTime)
-        self.emitterExplode.update(self.pos, elapsedTime)
+        for emitter in self.emitters:
+            emitter.update(self.pos, elapsedTime)
 
         if self.exploded:
             self.explosionAnimation.update(elapsedTime)
@@ -94,6 +103,6 @@ class MogProjectile(Projectile):
         else:
             self.explosionAnimation.draw(displaySurface, self.pos - Vector2(16,16))
 
-        self.emitter.draw(displaySurface)
-        self.emitterExplode.draw(displaySurface)
+        for emitter in self.emitters:
+            emitter.draw(displaySurface)
 
