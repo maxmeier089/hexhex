@@ -7,6 +7,8 @@ class GameObject(pygame.sprite.Sprite):
         self.pos = pos
         self.size = size
         self.children = pygame.sprite.Group()
+        self.hitbox = pygame.Rect(0, 0, self.size.x, self.size.y)
+        self.drawHitbox = True
 
     def loadFrames(self, spritesheet, frameWidth, frameHeight, numFrames):
         frames = []
@@ -22,5 +24,8 @@ class GameObject(pygame.sprite.Sprite):
             child.update(elapsedTime)
 
     def draw(self, displaySurface):
+        if self.drawHitbox:
+            pygame.draw.rect(displaySurface, (255,0,255), self.hitbox.move(self.pos), width=1)
+
         for child in self.children:
             child.draw(displaySurface)

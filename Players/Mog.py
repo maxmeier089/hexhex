@@ -34,6 +34,8 @@ class Mog(Player):
         self.emitterGrow.velVar = 0.5
         self.emitterGrow.endColor = (60,242,255)
         self.children.add(self.emitterGrow)
+
+        self.hitbox = pygame.Rect(8, 2, 16, 30)
         
 
     def update(self, elapsedTime, pressedKeys):

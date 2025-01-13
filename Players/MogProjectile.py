@@ -38,6 +38,8 @@ class MogProjectile(Projectile):
         self.released = False
         self.exploded = False
 
+        self.hitbox = pygame.Rect(-4, -4, Projectile.SIZE, Projectile.SIZE)
+
 
     def release(self, vel):
         self.vel = vel
