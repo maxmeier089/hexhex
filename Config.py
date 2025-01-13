@@ -5,3 +5,12 @@ SCREEN_HEIGHT = 240
 SCALE_FACTOR = 4  # Scale factor for the window
 
 FPS = 60 # frames per second
+
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLACK = (0, 0, 0)
+
+HEALTHBAR_WIDTH = 100
+HEALTHBAR_HEIGHT = 8
+HEALTHBAR_MARGIN = 4

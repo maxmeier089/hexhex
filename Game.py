@@ -15,7 +15,7 @@ class Game:
         self.players.add(player1)
 
         player2 = Mog(pygame.Vector2(20, 20))
-        player2.setKeys(pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d, pygame.K_LCTRL)
+        player2.makePlayer2()
         self.players.add(player2)
 
         self.font = pygame.font.SysFont(None, 82)
@@ -29,6 +29,7 @@ class Game:
     def update(self, elapsedTime, pressedKeys):
         for p in self.players:
             p.update(elapsedTime, pressedKeys)
+
         #self.emitter.update(Vector2(100,100), elapsedTime)
 
 
@@ -40,8 +41,19 @@ class Game:
         displaySurface.fill((52,125,25))
         #displaySurface.fill((30,121,127))
 
-        # player
+        # players
         for p in self.players:
             p.draw(displaySurface)
 
+        # projectiles
+        for p in self.players:
+            p.drawProjectiles(displaySurface)
+
+        # healthbars
+        for p in self.players:
+            p.drawHealthbar(displaySurface)
+
+        # if random.randint(0,10) == 5:
+        #     for p in self.players:
+        #         p.health -= 1
         #self.emitter.draw(displaySurface)

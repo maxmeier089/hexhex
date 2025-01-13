@@ -18,8 +18,6 @@ class Mog(Player):
         walkAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWalk.png").convert_alpha(), 32, 32, 2), 300)
         super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, standShootAnimation) 
         
-        self.projectiles = pygame.sprite.Group()
-        
         self.projectileOnStick = None
         self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
         self.angle = 0  # Start angle in degrees
@@ -27,18 +25,20 @@ class Mog(Player):
         self.spiralSpeed = 0.2  # Angular speed in degrees per second
         self.growthRate = 0.01  # Radius growth rate per second
         
-        self.emitterCont = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,0), delay = 125, ttl = 3000, color=(60,242,255))
+        self.emitterCont = PixelEmitter(pos = self.spawnPos, vel = Vector2(0, 0), delay = 125, ttl = 3000, color=(60,242,255))
         self.emitterCont.velVar = 0.1
         self.emitterCont.endColor = (255,255,255)
         self.children.add(self.emitterCont)
 
-        self.emitterGrow = PixelEmitter(pos = self.spawnPos, vel = Vector2(0,-0.2), delay = 125, ttl = 500, color=(255,255,255))
+        self.emitterGrow = PixelEmitter(pos = self.spawnPos, vel = Vector2(0, 0), delay = 125, ttl = 500, color=(255,255,255))
         self.emitterGrow.velVar = 0.5
         self.emitterGrow.endColor = (60,242,255)
         self.children.add(self.emitterGrow)
         
 
     def update(self, elapsedTime, pressedKeys):
+        self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
+
         if self.firePressed:
             # spiral spawn position
             self.angle += self.spiralSpeed * elapsedTime
@@ -48,10 +48,7 @@ class Mog(Player):
             # Convert polar coordinates to Cartesian
             x = self.radius * math.cos(math.radians(self.angle))
             y = self.radius * math.sin(math.radians(self.angle))
-            self.spawnPos = self.pos + Mog.LIFTED_STICK_POS + pygame.math.Vector2(x, y)
-
-        for projectile in self.projectiles:
-            projectile.update(elapsedTime)
+            self.spawnPos += pygame.math.Vector2(x, y)     
 
         self.emitterCont.pos = self.spawnPos.copy()
         self.emitterGrow.pos = self.spawnPos.copy()
@@ -96,11 +93,4 @@ class Mog(Player):
                 self.projectileOnStick.release(direction)
                 self.projectileOnStick = None
         self.radius = 0
-        self.emitterCont.on = False
-
-
-    def draw(self, displaySurface):
-        super().draw(displaySurface)
-
-        for projectile in self.projectiles:
-            projectile.draw(displaySurface)   
+        self.emitterCont.on = False  

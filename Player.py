@@ -1,4 +1,6 @@
 import pygame, pygame.math
+from pygame import Vector2
+from Config import *
 from GameObject import *
 
 class Player(GameObject):
@@ -6,18 +8,27 @@ class Player(GameObject):
     SIZE = 32
 
     def __init__(self, name, health, speed, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation):
-        super().__init__(pos, pygame.Vector2(Player.SIZE, Player.SIZE))
+        super().__init__(pos, Vector2(Player.SIZE, Player.SIZE))
         self.name = name
         self.health = health
+        self.maxHealth = self.health
         self.speed = speed
         self.firePressed = False
         self.firePressedTime = 0
+        self.projectiles = pygame.sprite.Group()
         self.standAnimation = standAnimation
         self.standShootAnimation = standShootAnimation
         self.walkAnimation = walkAnimation
         self.walkShootAnimation = walkShootAnimation
         self.currentAnimation = standAnimation
         self.setKeys(pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_RCTRL)
+        self.healthBarX = HEALTHBAR_MARGIN
+        self.healthBarY = HEALTHBAR_MARGIN
+
+    def makePlayer2(self):
+        self.setKeys(pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d, pygame.K_LCTRL)
+        self.healthBarX = SCREEN_WIDTH - HEALTHBAR_MARGIN - HEALTHBAR_WIDTH
+        self.healthBarY = HEALTHBAR_MARGIN
 
     def fireDown(self):
         pass
@@ -38,7 +49,7 @@ class Player(GameObject):
         
 
     def update(self, elapsedTime, pressedKeys):
-        move = pygame.Vector2(0,0)
+        move = Vector2(0,0)
 
         if pressedKeys[self.upKey]:
             move.y -= 1
@@ -80,6 +91,9 @@ class Player(GameObject):
 
         self.pos += move
 
+        for projectile in self.projectiles:
+            projectile.update(elapsedTime)
+
         self.currentAnimation.update(elapsedTime)
 
         super().update(elapsedTime)
@@ -88,3 +102,14 @@ class Player(GameObject):
     def draw(self, displaySurface):
         self.currentAnimation.draw(displaySurface, self.pos)
         super().draw(displaySurface)
+
+    def drawProjectiles(self, displaySurface):
+        for projectile in self.projectiles:
+            projectile.draw(displaySurface)
+
+    def drawHealthbar(self, displaySurface):
+        currentBarWidth = (self.health / self.maxHealth) * HEALTHBAR_WIDTH
+        pygame.draw.rect(displaySurface, RED, (self.healthBarX, self.healthBarY, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT))
+        pygame.draw.rect(displaySurface, GREEN, (self.healthBarX, self.healthBarY, currentBarWidth, HEALTHBAR_HEIGHT))
+        pygame.draw.rect(displaySurface, BLACK, (self.healthBarX, self.healthBarY, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT), 1, 1)
+
