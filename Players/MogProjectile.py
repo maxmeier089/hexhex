@@ -37,8 +37,9 @@ class MogProjectile(Projectile):
         
         self.released = False
         self.exploded = False
+        self.explosionTime = 500
 
-        self.hitbox = pygame.Rect(-4, -4, Projectile.SIZE, Projectile.SIZE)
+        self.hitboxShape = pygame.Rect(-4, -4, Projectile.SIZE, Projectile.SIZE)
 
 
     def release(self, vel):
@@ -69,6 +70,9 @@ class MogProjectile(Projectile):
             self.explosionAnimation.setStartIndex(4)
         elif self.power == 1:
             self.explosionAnimation.setStartIndex(6)
+
+        self.hitboxShape = pygame.Rect(-16, -16, 32, 32)
+
       
 
     def update(self, elapsedTime):
@@ -80,9 +84,9 @@ class MogProjectile(Projectile):
 
         if self.released:
             self.ttl -= elapsedTime
-            if self.ttl <= 2250:
+            if self.ttl <= 2250 and not self.exploded:
                 self.emitterCountdown.on = True
-                if self.ttl <= 0 and not self.exploded:
+                if self.ttl <= 0:
                     self.explode() 
 
         if self.power == -1:
@@ -101,7 +105,13 @@ class MogProjectile(Projectile):
         self.animation.update(elapsedTime)
 
         if self.exploded:
+            if self.explosionTime > 0:
+                self.explosionTime -= elapsedTime
+                if self.explosionTime < 0:
+                    self.hitboxActive = False
             self.explosionAnimation.update(elapsedTime)
+            self.power -= 0.001 * elapsedTime
+            if self.power < 0: self.power = 0
             if not self.explosionAnimation.isRunning and len(self.emitter.particles) == 0 and len(self.emitter.particles) == 0:
                 self.kill()
 

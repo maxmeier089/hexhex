@@ -21,12 +21,12 @@ class Player(GameObject):
         self.walkAnimation = walkAnimation
         self.walkShootAnimation = walkShootAnimation
         self.currentAnimation = standAnimation
-        self.setKeys(pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_RCTRL)
+        self.setKeys(pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d, pygame.K_LCTRL)
         self.healthBarX = HEALTHBAR_MARGIN
         self.healthBarY = HEALTHBAR_MARGIN
 
     def makePlayer2(self):
-        self.setKeys(pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d, pygame.K_LCTRL)
+        self.setKeys(pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_RCTRL)
         self.healthBarX = SCREEN_WIDTH - HEALTHBAR_MARGIN - HEALTHBAR_WIDTH
         self.healthBarY = HEALTHBAR_MARGIN
 

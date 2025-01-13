@@ -11,10 +11,10 @@ class Game:
         pygame.init()
         self.players = pygame.sprite.Group()
 
-        player1 = Mog(pygame.Vector2(SCREEN_WIDTH-52, SCREEN_HEIGHT-52))
+        player1 = Mog(pygame.Vector2(40, SCREEN_HEIGHT/2))
         self.players.add(player1)
 
-        player2 = Mog(pygame.Vector2(20, 20))
+        player2 = Mog(pygame.Vector2(SCREEN_WIDTH-40-32, SCREEN_HEIGHT/2))
         player2.makePlayer2()
         self.players.add(player2)
 
@@ -29,6 +29,15 @@ class Game:
     def update(self, elapsedTime, pressedKeys):
         for p in self.players:
             p.update(elapsedTime, pressedKeys)
+
+        for p in self.players:
+            for p2 in self.players:
+                if p != p2:
+                    for pr in p2.projectiles:
+                        if pr.hitboxActive and p.collidesWith(pr):
+                            p.health -= 0.1 + pr.power * 0.1
+                            pr.explode()
+
 
         #self.emitter.update(Vector2(100,100), elapsedTime)
 
