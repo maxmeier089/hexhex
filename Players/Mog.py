@@ -43,6 +43,9 @@ class Mog(Player):
     def win(self):
         super().win()
         self.emitterCont.on = True
+        if self.projectileOnStick is not None:
+            self.projectileOnStick.kill()
+            self.projectileOnStick = None
         
 
     def update(self, elapsedTime, pressedKeys):

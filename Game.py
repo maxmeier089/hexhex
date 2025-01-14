@@ -4,18 +4,21 @@ from Player import *
 from Animation import *
 from Players.Mog import *
 from Particles.Emitter import *
+from Stages.Volcano import Volcano
 
 class Game:
 
     def __init__(self):
         pygame.init()
 
+        self.stage = Volcano()
+
         self.players = pygame.sprite.Group()
 
-        player1 = Mog(pygame.Vector2(40, SCREEN_HEIGHT/2))
+        player1 = Mog(pygame.Vector2(40, SCREEN_HEIGHT/2 - 16))
         self.players.add(player1)
 
-        player2 = Mog(pygame.Vector2(SCREEN_WIDTH-40-32, SCREEN_HEIGHT/2))
+        player2 = Mog(pygame.Vector2(SCREEN_WIDTH-40-32, SCREEN_HEIGHT/2 - 16))
         player2.makePlayer2()
         self.players.add(player2)
 
@@ -73,11 +76,13 @@ class Game:
 
     def draw(self, displaySurface):
         # background
+        #displaySurface.fill((52,125,25))
         #displaySurface.fill((34,98,12))
         #displaySurface.fill((125,12,225))
         #displaySurface.fill((125,12,25))
-        displaySurface.fill((52,125,25))
         #displaySurface.fill((30,121,127))
+
+        self.stage.draw(displaySurface, Vector2(0, 0))
 
         # players
         for p in self.players:
