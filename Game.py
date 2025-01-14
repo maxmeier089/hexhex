@@ -29,15 +29,27 @@ class Game:
     def update(self, elapsedTime, pressedKeys):
         for p in self.players:
             p.update(elapsedTime, pressedKeys)
+            
+        for playerA in self.players:
 
-        for p in self.players:
-            for p2 in self.players:
-                if p != p2:
-                    for pr in p2.projectiles:
-                        if pr.hitboxActive and p.collidesWith(pr):
-                            p.health -= 0.1 + pr.power * 0.1
-                            pr.explode()
+            for playerB in self.players:
+                
+                if playerA != playerB:
 
+                    for projectileB in playerB.projectiles:
+
+                        if projectileB.hitboxActive and playerA.collidesWith(projectileB):
+                            # collision between projectile and player
+                            projectileB.explode()
+                            playerA.health -= 0.3 + projectileB.power * 0.3
+                            if playerA.health < 0.0:
+                                playerA.health = 0.0
+                            
+                        for projectileA in playerA.projectiles:
+                            if projectileA.hitboxActive and projectileB.hitboxActive and projectileA.collidesWith(projectileB):
+                                # collision between two projectiles
+                                projectileA.explode()
+                                projectileB.explode()
 
         #self.emitter.update(Vector2(100,100), elapsedTime)
 

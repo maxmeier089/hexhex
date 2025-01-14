@@ -9,8 +9,8 @@ class GameObject(pygame.sprite.Sprite):
         self.children = pygame.sprite.Group()
         self.hitboxShape = pygame.Rect(0, 0, self.size.x, self.size.y)
         self.hitbox = self.hitboxShape.move(self.pos)
-        self.drawHitbox = True
         self.hitboxActive = True
+        self.drawHitbox = False     
 
     def loadFrames(self, spritesheet, frameWidth, frameHeight, numFrames):
         frames = []

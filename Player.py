@@ -24,6 +24,7 @@ class Player(GameObject):
         self.setKeys(pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d, pygame.K_LCTRL)
         self.healthBarX = HEALTHBAR_MARGIN
         self.healthBarY = HEALTHBAR_MARGIN
+        self.healthBarColor = (255,255,255)
 
     def makePlayer2(self):
         self.setKeys(pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_RCTRL)
@@ -109,7 +110,7 @@ class Player(GameObject):
 
     def drawHealthbar(self, displaySurface):
         currentBarWidth = (self.health / self.maxHealth) * HEALTHBAR_WIDTH
-        pygame.draw.rect(displaySurface, RED, (self.healthBarX, self.healthBarY, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT))
-        pygame.draw.rect(displaySurface, GREEN, (self.healthBarX, self.healthBarY, currentBarWidth, HEALTHBAR_HEIGHT))
-        pygame.draw.rect(displaySurface, BLACK, (self.healthBarX, self.healthBarY, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT), 1, 1)
+        pygame.draw.rect(displaySurface, RED, (self.healthBarX, self.healthBarY, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT), border_radius=3)
+        pygame.draw.rect(displaySurface, self.healthBarColor, (self.healthBarX, self.healthBarY, currentBarWidth, HEALTHBAR_HEIGHT), border_radius=3)
+        pygame.draw.rect(displaySurface, BLACK, (self.healthBarX, self.healthBarY, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT), width=1, border_radius=3)
 
