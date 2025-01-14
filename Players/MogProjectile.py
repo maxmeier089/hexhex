@@ -73,6 +73,9 @@ class MogProjectile(Projectile):
 
         self.hitboxShape = pygame.Rect(-16, -16, 32, 32)
 
+
+    def getImpact(self):
+        return 0.3 + self.power * 0.3
       
 
     def update(self, elapsedTime):

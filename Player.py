@@ -10,9 +10,12 @@ class Player(GameObject):
     def __init__(self, name, health, speed, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation):
         super().__init__(pos, Vector2(Player.SIZE, Player.SIZE))
         self.name = name
+        self.playerNumber = 1
+        self.isAlive = True
         self.health = health
         self.maxHealth = self.health
         self.speed = speed
+        self.lastMove = Vector2(0, 0)
         self.firePressed = False
         self.firePressedTime = 0
         self.projectiles = pygame.sprite.Group()
@@ -27,6 +30,7 @@ class Player(GameObject):
         self.healthBarColor = (255,255,255)
 
     def makePlayer2(self):
+        self.playerNumber = 2
         self.setKeys(pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_RCTRL)
         self.healthBarX = SCREEN_WIDTH - HEALTHBAR_MARGIN - HEALTHBAR_WIDTH
         self.healthBarY = HEALTHBAR_MARGIN
@@ -47,6 +51,13 @@ class Player(GameObject):
         self.leftKey = left
         self.rightKey = right
         self.fireKey = fire
+
+
+    def hit(self, impact):
+        self.health -= impact
+        if self.health < 0.0:
+            self.isAlive = False
+            self.health = 0.0
         
 
     def update(self, elapsedTime, pressedKeys):
@@ -91,6 +102,8 @@ class Player(GameObject):
                 self.currentAnimation = self.standAnimation
 
         self.pos += move
+
+        self.lastMove = move
 
         for projectile in self.projectiles:
             projectile.update(elapsedTime)
