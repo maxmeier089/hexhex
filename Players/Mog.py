@@ -16,7 +16,9 @@ class Mog(Player):
         standAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogStand.png").convert_alpha(), 32, 32, 1), 300)
         standShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogStandShoot.png").convert_alpha(), 32, 32, 1), 300)
         walkAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWalk.png").convert_alpha(), 32, 32, 2), 300)
-        super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, standShootAnimation) 
+        winAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWinner.png").convert_alpha(), 32, 32, 3), 300)  
+        deadAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogDead.png").convert_alpha(), 32, 32, 1), 300)    
+        super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, standShootAnimation, winAnimation, deadAnimation) 
         
         self.projectileOnStick = None
         self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
@@ -36,21 +38,30 @@ class Mog(Player):
         self.children.add(self.emitterGrow)
 
         self.hitboxShape = pygame.Rect(8, 4, 16, 28)
+
+
+    def win(self):
+        super().win()
+        self.emitterCont.on = True
         
 
     def update(self, elapsedTime, pressedKeys):
-        self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
 
-        if self.firePressed:
-            # spiral spawn position
-            self.angle += self.spiralSpeed * elapsedTime
-            self.radius += self.growthRate * elapsedTime
-            maxRadius = 7
-            if self.radius > maxRadius: self.radius = maxRadius 
-            # Convert polar coordinates to Cartesian
-            x = self.radius * math.cos(math.radians(self.angle))
-            y = self.radius * math.sin(math.radians(self.angle))
-            self.spawnPos += pygame.math.Vector2(x, y)     
+        if (self.isWinner):
+            self.spawnPos = self.pos + Vector2(5,5)
+        else:
+            self.spawnPos = self.pos + Mog.LIFTED_STICK_POS
+
+            if self.firePressed:
+                # spiral spawn position
+                self.angle += self.spiralSpeed * elapsedTime
+                self.radius += self.growthRate * elapsedTime
+                maxRadius = 7
+                if self.radius > maxRadius: self.radius = maxRadius 
+                # Convert polar coordinates to Cartesian
+                x = self.radius * math.cos(math.radians(self.angle))
+                y = self.radius * math.sin(math.radians(self.angle))
+                self.spawnPos += pygame.math.Vector2(x, y)     
 
         self.emitterCont.pos = self.spawnPos.copy()
         self.emitterGrow.pos = self.spawnPos.copy()

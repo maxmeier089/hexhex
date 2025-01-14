@@ -30,6 +30,7 @@ class Game:
 
 
     def update(self, elapsedTime, pressedKeys):
+
         for p in self.players:
             p.update(elapsedTime, pressedKeys)
             
@@ -63,6 +64,7 @@ class Game:
                                 projectileB.explode()
 
             if allOthersDead:
+                playerA.win()
                 self.mainText = "Player " + str(playerA.playerNumber) + " wins!"
 
 
