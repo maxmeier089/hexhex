@@ -48,6 +48,10 @@ class MogProjectile(Projectile):
         self.ttl = MogProjectile.TTL
 
 
+    def hit(self):
+        self.explode()
+
+
     def explode(self):
         if self.exploded: # already exploded
             # ignore method call
@@ -80,6 +84,7 @@ class MogProjectile(Projectile):
 
     def update(self, elapsedTime):
         if not self.exploded:
+            self.lastPos = self.pos.copy()
             self.pos += self.vel * elapsedTime
 
         self.emitter.pos = self.pos.copy()

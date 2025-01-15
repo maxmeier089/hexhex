@@ -37,7 +37,7 @@ class Mog(Player):
         self.emitterGrow.endColor = (60,242,255)
         self.children.add(self.emitterGrow)
 
-        self.hitboxShape = pygame.Rect(8, 4, 16, 28)
+        self.hitboxShape = pygame.Rect(7, 3, 19, 28)
 
     
     def hit(self, impact):

@@ -23,8 +23,14 @@ class Game:
         self.players.add(player2)
 
         self.mainFont = pygame.font.Font("Content/m3x6.ttf", 48)
-
         self.mainText = ""
+
+        self.timeFont = pygame.font.Font("Content/m3x6.ttf", 16)
+        self.timeText = "61"
+
+        self.isRunning = True
+
+        self.totalTime = 0.0
 
         #self.emitter = PixelEmitter(Vector2(100,100), Vector2(0.5,0.5), 200, 1000, (245,45,23))
         #self.emitter.angleSpeed = 0
@@ -34,8 +40,23 @@ class Game:
 
     def update(self, elapsedTime, pressedKeys):
 
+        if self.isRunning:
+            self.totalTime += elapsedTime
+
         for p in self.players:
             p.update(elapsedTime, pressedKeys)
+
+            for o in self.stage.obstacles:
+                if p.collidesWith(o):
+                    # player collides with obstacle
+                    p.pos = p.lastPos
+
+                for pr in p.projectiles:
+                    if pr.collidesWith(o):
+                        # projectile collides with obstacle
+                        pr.pos = pr.lastPos
+                        pr.hit()
+
             
         for playerA in self.players:
 
@@ -68,7 +89,10 @@ class Game:
 
             if allOthersDead:
                 playerA.win()
+                self.isRunning = False
                 self.mainText = "Player " + str(playerA.playerNumber) + " wins!"
+
+            self.timeText = str((int)(self.totalTime/1000.0))
 
 
         #self.emitter.update(Vector2(100,100), elapsedTime)
@@ -97,9 +121,13 @@ class Game:
             p.drawHealthbar(displaySurface)
 
 
-        mainTextPos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+        mainTextPos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2-8)
         mainTextSurface = self.mainFont.render(self.mainText, True, GOLD)
         displaySurface.blit(mainTextSurface, mainTextSurface.get_rect(center=mainTextPos))
+
+        timeTextPos = (SCREEN_WIDTH/2, 6)
+        timeTextSurface = self.timeFont.render(self.timeText, True, GOLD)
+        displaySurface.blit(timeTextSurface, timeTextSurface.get_rect(center=timeTextPos))
 
         # if random.randint(0,10) == 5:
         #     for p in self.players:
