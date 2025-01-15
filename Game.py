@@ -50,8 +50,8 @@ class Game:
 
                     if playerA.collidesWith(playerB):
                         # player collides with player
-                        playerA.pos -= playerA.lastMove
-                        playerB.pos -= playerB.lastMove
+                        playerA.pos = playerA.lastPos
+                        playerB.pos = playerB.lastPos
 
                     for projectileB in playerB.projectiles:
 

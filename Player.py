@@ -16,7 +16,6 @@ class Player(GameObject):
         self.health = health
         self.maxHealth = self.health
         self.speed = speed
-        self.lastMove = Vector2(0, 0)
         self.firePressed = False
         self.firePressedTime = 0
         self.projectiles = pygame.sprite.Group()
@@ -110,9 +109,9 @@ class Player(GameObject):
                 else:
                     self.currentAnimation = self.standAnimation
 
-            self.pos += move
+            self.lastPos = self.pos.copy()
 
-            self.lastMove = move
+            self.pos += move
 
         for projectile in self.projectiles:
             projectile.update(elapsedTime)

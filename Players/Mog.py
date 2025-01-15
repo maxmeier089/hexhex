@@ -39,10 +39,21 @@ class Mog(Player):
 
         self.hitboxShape = pygame.Rect(8, 4, 16, 28)
 
+    
+    def hit(self, impact):
+        super().hit(impact)
+        if not self.isAlive:
+            self.emitterCont.on = False
+            self.removeProjectileOnStick()
+
 
     def win(self):
         super().win()
         self.emitterCont.on = True
+        self.removeProjectileOnStick()
+        
+
+    def removeProjectileOnStick(self):
         if self.projectileOnStick is not None:
             self.projectileOnStick.kill()
             self.projectileOnStick = None

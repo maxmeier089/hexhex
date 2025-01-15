@@ -5,6 +5,7 @@ class GameObject(pygame.sprite.Sprite):
     def __init__(self, pos, size):
         super().__init__()
         self.pos = pos
+        self.lastPos = pos
         self.size = size
         self.children = pygame.sprite.Group()
         self.hitboxShape = pygame.Rect(0, 0, self.size.x, self.size.y)
