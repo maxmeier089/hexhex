@@ -9,10 +9,12 @@ from Stages.Volcano import Volcano
 class Game:
 
     def __init__(self):
-        pygame.init()
 
         self.stage = Volcano()
-
+        pygame.mixer.music.load(self.stage.music)
+        pygame.mixer.music.set_volume(0.7)
+        pygame.mixer.music.play(-1)
+        
         self.players = pygame.sprite.Group()
 
         player1 = Mog(pygame.Vector2(40, SCREEN_HEIGHT/2 - 16))

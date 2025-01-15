@@ -22,8 +22,6 @@ class Stage:
         rightBorder = Obstacle(Vector2(SCREEN_WIDTH - 2, 0), Vector2(2, SCREEN_HEIGHT))
         self.obstacles.append(rightBorder)
         
-        
-
         self.rows = int(SCREEN_HEIGHT / Stage.TILE_SIZE)
         self.cols = int(SCREEN_WIDTH / Stage.TILE_SIZE)
 

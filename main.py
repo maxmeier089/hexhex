@@ -9,6 +9,7 @@ from Players.Mog import *
 
 # Initialize Pygame
 pygame.init()
+pygame.mixer.init()
 
 # Scaled window resolution
 WINDOW_WIDTH = SCREEN_WIDTH * SCALE_FACTOR
