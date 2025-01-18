@@ -11,9 +11,6 @@ class Game:
     def __init__(self):
 
         self.stage = Volcano()
-        pygame.mixer.music.load(self.stage.music)
-        pygame.mixer.music.set_volume(0.7)
-        pygame.mixer.music.play(-1)
         
         self.players = pygame.sprite.Group()
 
@@ -27,12 +24,17 @@ class Game:
         self.mainFont = pygame.font.Font("Content/m3x6.ttf", 48)
         self.mainText = ""
 
+        self.secondaryFont = pygame.font.Font("Content/m3x6.ttf", 16)
+        self.secondaryText = ""
+
         self.timeFont = pygame.font.Font("Content/m3x6.ttf", 16)
-        self.timeText = "61"
+        self.timeText = "0"
 
         self.isRunning = True
+        self.endSequenceOver = False
 
         self.totalTime = 0.0
+        self.totalEndTime = 0.0
 
         #self.emitter = PixelEmitter(Vector2(100,100), Vector2(0.5,0.5), 200, 1000, (245,45,23))
         #self.emitter.angleSpeed = 0
@@ -44,6 +46,11 @@ class Game:
 
         if self.isRunning:
             self.totalTime += elapsedTime
+        else:
+            self.totalEndTime += elapsedTime
+            if self.totalEndTime > 5000:
+                self.endSequenceOver = True
+                self.secondaryText = "- press fire to continue -"
 
         for p in self.players:
             p.update(elapsedTime, pressedKeys)
@@ -122,10 +129,15 @@ class Game:
         for p in self.players:
             p.drawHealthbar(displaySurface)
 
+        if not self.isRunning:
+            mainTextPos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 16)
+            mainTextSurface = self.mainFont.render(self.mainText, True, GOLD)
+            displaySurface.blit(mainTextSurface, mainTextSurface.get_rect(center=mainTextPos))
 
-        mainTextPos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2-8)
-        mainTextSurface = self.mainFont.render(self.mainText, True, GOLD)
-        displaySurface.blit(mainTextSurface, mainTextSurface.get_rect(center=mainTextPos))
+            if self.endSequenceOver:
+                secondaryTextPos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 16)
+                secondaryTextSurface = self.secondaryFont.render(self.secondaryText, True, GOLD)
+                displaySurface.blit(secondaryTextSurface, secondaryTextSurface.get_rect(center=secondaryTextPos))
 
         timeTextPos = (SCREEN_WIDTH/2, 6)
         timeTextSurface = self.timeFont.render(self.timeText, True, GOLD)

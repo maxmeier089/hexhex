@@ -33,7 +33,7 @@ class Player(GameObject):
 
     def makePlayer2(self):
         self.playerNumber = 2
-        self.setKeys(pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_RCTRL)
+        self.setKeys(pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_RETURN)
         self.healthBarX = SCREEN_WIDTH - HEALTHBAR_MARGIN - HEALTHBAR_WIDTH
         self.healthBarY = HEALTHBAR_MARGIN
 

@@ -31,6 +31,10 @@ running = True
 # Create Game
 game = Game()
 
+pygame.mixer.music.load(game.stage.music)
+pygame.mixer.music.set_volume(0.7)
+pygame.mixer.music.play(-1)
+
 # Run!
 while running:
     for event in pygame.event.get():
@@ -46,6 +50,10 @@ while running:
     elapsedTime = currentTime - lastUpdateTime
     game.update(elapsedTime, pressedKeys)
     lastUpdateTime = currentTime
+
+    if game.endSequenceOver and (pressedKeys[pygame.K_RETURN] or pressedKeys[pygame.K_LCTRL]):
+        # New Game
+        game = Game()
 
 
     # DRAW
