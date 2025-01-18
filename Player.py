@@ -57,7 +57,7 @@ class Player(GameObject):
 
     def hit(self, impact):
         self.health -= impact
-        if self.health < 0.0:
+        if self.health <= 0.0:
             self.isAlive = False
             self.currentAnimation = self.deadAnimation
             self.health = 0.0
