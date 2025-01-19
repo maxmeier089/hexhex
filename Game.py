@@ -2,7 +2,8 @@ import pygame
 from Config import *
 from Player import *
 from Animation import *
-from Players.Mog import *
+from Players.Mog import Mog
+from Players.Zarvo import Zarvo
 from Particles.Emitter import *
 from Stages.Volcano import Volcano
 
@@ -17,7 +18,7 @@ class Game:
         player1 = Mog(pygame.Vector2(40, SCREEN_HEIGHT/2 - 16))
         self.players.add(player1)
 
-        player2 = Mog(pygame.Vector2(SCREEN_WIDTH-40-32, SCREEN_HEIGHT/2 - 16))
+        player2 = Zarvo(pygame.Vector2(SCREEN_WIDTH-40-32, SCREEN_HEIGHT/2 - 16))
         player2.makePlayer2()
         self.players.add(player2)
 
