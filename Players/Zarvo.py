@@ -16,11 +16,11 @@ class Zarvo(Player):
         standAnimation = Animation(self.loadFrames(pygame.image.load("Players\Zarvo\ZarvoStand.png").convert_alpha(), 32, 32, 1), 300)
         standShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Zarvo\ZarvoStandShoot.png").convert_alpha(), 32, 32, 1), 300)
         walkAnimation = Animation(self.loadFrames(pygame.image.load("Players\Zarvo\ZarvoWalk.png").convert_alpha(), 32, 32, 2), 300)
-        walkShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWalkShoot.png").convert_alpha(), 32, 32, 2), 300)    
+        walkShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Zarvo\ZarvoWalkShoot.png").convert_alpha(), 32, 32, 2), 300)    
         winAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWinner.png").convert_alpha(), 32, 32, 3), 300)  
         deadAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogDead.png").convert_alpha(), 32, 32, 1), 300)    
         #super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation) 
-        super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, standAnimation, standAnimation, standAnimation) 
+        super().__init__("Mog", 100, 0.5, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, standAnimation, standAnimation) 
         
         self.projectileOnStick = None
         self.spawnPos = self.pos + Zarvo.LIFTED_STICK_POS
