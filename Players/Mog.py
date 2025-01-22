@@ -7,6 +7,7 @@ from Players.MogProjectile import *
 class Mog(SpinPlayer):
 
     LIFTED_STICK_POS = pygame.Vector2(26, 3)
+    WIN_STICK_POS = pygame.Vector2(5,8)
 
     def __init__(self, pos):
 
@@ -16,7 +17,7 @@ class Mog(SpinPlayer):
         walkShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWalkShoot.png").convert_alpha(), 32, 32, 2), 300)    
         winAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogWinner.png").convert_alpha(), 32, 32, 3), 300)  
         deadAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogDead.png").convert_alpha(), 32, 32, 1), 300)    
-        super().__init__("Mog", 100, 0.5, pos, pygame.Rect(7, 3, 19, 28), standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation, (60, 242, 255), (255,255,255), Mog.LIFTED_STICK_POS) 
+        super().__init__("Mog", 100, 0.5, pos, pygame.Rect(7, 3, 19, 28), standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation, (60, 242, 255), (255,255,255), Mog.LIFTED_STICK_POS, Mog.WIN_STICK_POS) 
 
     
     def createProjectile(self):

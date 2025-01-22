@@ -9,7 +9,7 @@ from Players import *
 
 class SpinPlayer(Player):
 
-    def __init__(self, name, health, speed,  pos, hitboxShape, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation, colorA, colorB, liftedStickPos):
+    def __init__(self, name, health, speed,  pos, hitboxShape, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation, colorA, colorB, liftedStickPos, winStickPos):
 
         super().__init__(name, health, speed, pos, hitboxShape, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation) 
         
@@ -17,7 +17,7 @@ class SpinPlayer(Player):
         self.colorB = colorB
 
         self.liftedStickPos = liftedStickPos
-
+        self.winStickPos = winStickPos
         self.projectileOnStick = None
 
         self.spawnPos = self.pos + self.liftedStickPos
@@ -63,7 +63,7 @@ class SpinPlayer(Player):
     def update(self, elapsedTime, pressedKeys):
 
         if (self.isWinner):
-            self.spawnPos = self.pos + Vector2(5,5)
+            self.spawnPos = self.pos + self.winStickPos
         else:
             self.spawnPos = self.pos + self.liftedStickPos
 
