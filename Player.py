@@ -7,9 +7,10 @@ class Player(GameObject):
 
     SIZE = 32
 
-    def __init__(self, name, health, speed, pos, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation):
+    def __init__(self, name, health, speed, pos, hitboxShape, standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation):
         super().__init__(pos, Vector2(Player.SIZE, Player.SIZE))
         self.name = name
+        self.hitboxShape = hitboxShape
         self.playerNumber = 1
         self.isAlive = True
         self.isWinner = False
