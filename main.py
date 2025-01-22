@@ -33,7 +33,7 @@ game = Game()
 
 pygame.mixer.music.load(game.stage.music)
 pygame.mixer.music.set_volume(0.7)
-pygame.mixer.music.play(-1)
+#pygame.mixer.music.play(-1)
 
 # Run!
 while running:

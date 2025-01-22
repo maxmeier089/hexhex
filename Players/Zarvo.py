@@ -5,7 +5,7 @@ from Particles.PixelParticle import *
 from Player import *
 from Animation import *
 from Players import *
-from Players.MogProjectile import *
+from Players.ZarvoProjectile import *
 
 class Zarvo(Player):
 
@@ -29,14 +29,14 @@ class Zarvo(Player):
         self.spiralSpeed = 0.2  # Angular speed in degrees per second
         self.growthRate = 0.01  # Radius growth rate per second
         
-        self.emitterCont = PixelEmitter(pos = self.spawnPos, vel = Vector2(0, 0), delay = 125, ttl = 3000, color=(60,242,255))
+        self.emitterCont = PixelEmitter(pos = self.spawnPos, vel = Vector2(0, 0), delay = 125, ttl = 3000, color=(194, 92, 60))
         self.emitterCont.velVar = 0.1
         self.emitterCont.endColor = (255,255,255)
         self.children.add(self.emitterCont)
 
         self.emitterGrow = PixelEmitter(pos = self.spawnPos, vel = Vector2(0, 0), delay = 125, ttl = 500, color=(255,255,255))
         self.emitterGrow.velVar = 0.5
-        self.emitterGrow.endColor = (60,242,255)
+        self.emitterGrow.endColor = (194, 92, 60)
         self.children.add(self.emitterGrow)
 
         self.hitboxShape = pygame.Rect(7, 3, 19, 28)
@@ -88,7 +88,7 @@ class Zarvo(Player):
     def fireDown(self):
         self.spawnPos = self.pos + Zarvo.LIFTED_STICK_POS
         self.radius = 0  # Initial radius 
-        self.projectileOnStick = MogProjectile(self.spawnPos)
+        self.projectileOnStick = ZarvoProjectile(self.spawnPos)
         self.projectiles.add(self.projectileOnStick)
         self.emitterCont.on = True
 
