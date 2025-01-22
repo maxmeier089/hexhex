@@ -1,11 +1,8 @@
 import pygame, pygame.math
-from Particles.PixelEmitter  import *
-from Particles.PixelParticle import *
-from Player import *
-from Animation import *
-from Players import *
-from Players.ZarvoProjectile import *
 from SpinPlayer import SpinPlayer
+from Animation import *
+from Players.ZarvoProjectile import *
+
 
 class Zarvo(SpinPlayer):
 

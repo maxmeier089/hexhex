@@ -1,11 +1,8 @@
 import pygame, pygame.math
-from Particles.PixelEmitter  import *
-from Particles.PixelParticle import *
-from Player import *
-from Animation import *
-from Players import *
-from Players.MogProjectile import *
 from SpinPlayer import SpinPlayer
+from Animation import *
+from Players.MogProjectile import *
+
 
 class Mog(SpinPlayer):
 

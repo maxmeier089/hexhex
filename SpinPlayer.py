@@ -5,7 +5,7 @@ from Particles.PixelParticle import *
 from Player import *
 from Animation import *
 from Players import *
-from Players.MogProjectile import *
+
 
 class SpinPlayer(Player):
 
