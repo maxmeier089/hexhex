@@ -16,8 +16,8 @@ class Zarvo(SpinPlayer):
         walkAnimation = Animation(self.loadFrames(pygame.image.load("Players\Zarvo\ZarvoWalk.png").convert_alpha(), 32, 32, 2), 300)
         walkShootAnimation = Animation(self.loadFrames(pygame.image.load("Players\Zarvo\ZarvoWalkShoot.png").convert_alpha(), 32, 32, 2), 300)    
         winAnimation = Animation(self.loadFrames(pygame.image.load("Players\Zarvo\ZarvoWinner.png").convert_alpha(), 32, 32, 2), 300)  
-        deadAnimation = Animation(self.loadFrames(pygame.image.load("Players\Mog\MogDead.png").convert_alpha(), 32, 32, 1), 300)    
-        super().__init__("Zarvo", 100, 0.5, pos, pygame.Rect(5, 3, 20, 28), standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, standAnimation, (194, 92, 60), (255,255,255), Zarvo.LIFTED_STICK_POS, Zarvo.WIN_STICK_POS) 
+        deadAnimation = Animation(self.loadFrames(pygame.image.load("Players\Zarvo\ZarvoDead.png").convert_alpha(), 32, 32, 1), 300)    
+        super().__init__("Zarvo", 100, 0.5, pos, pygame.Rect(5, 3, 20, 28), standAnimation, standShootAnimation, walkAnimation, walkShootAnimation, winAnimation, deadAnimation, (194, 92, 60), (255,255,255), Zarvo.LIFTED_STICK_POS, Zarvo.WIN_STICK_POS) 
     
 
     def createProjectile(self):
